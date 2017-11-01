@@ -1,5 +1,8 @@
 ﻿:Namespace FmtBuilder
 
+⍝ API Callback for analyzing format string properties.  
+⍝ The properties are submitted through JSON objects via POST
+
       getFmtIntitial←{
           r←⎕NEW #.H5Message ⍺
           time←{('-'@(' '=⊢))⍕3↑¯4↑⎕TS}

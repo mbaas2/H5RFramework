@@ -151,7 +151,7 @@
       GetResourceType←{
           IsApiEndPoint ⍵:'api'
           exists←⎕NEXISTS ResourceFolder,⍵
-          ~exists:stop'n/a'
+          ~exists:'n/a'
           res←↑(1 2∊1 ⎕NINFO ResourceFolder,⍵)/'directory' 'file'
           res
       }

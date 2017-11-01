@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="demo">
+<h2>The XMLHttpRequest Object</h2>
+<button type="button" onclick="loadDoc()">GET</button>
+</br>
+<button type="button" onclick="postDoc_test()">TEST</button>
+</br>
+<button type="button" onclick="postDoc_okfoo()">OK</button>
+</br>
+<button type="button" onclick="postDoc_cancel()">CANCEL</button>
+</div>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", "http://dyalog_root/FormatStringBuilder/", true);
+  xhttp.setRequestHeader('Content-type','application/json');
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+
+  xhttp.send("test");
+}
+
+function postDoc_okfoo(){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "http://dyalog_root/FormatStringBuilder", true);
+  xhttp.setRequestHeader('Content-type','application/json');
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+
+  xhttp.send("\t{\r\n\t \"action_type\": \"OK\",\r\n\t \"action_request\": {\r\n\t\t \"data\": [\r\n\t\t\t-0.123,\r\n\t\t\t-1,\r\n\t\t\t-10.123,\r\n\t\t\t-100,\r\n\t\t\t-10000.12,\r\n\t\t\t-100000,\r\n\t\t\t0,\r\n\t\t\t0.123,\r\n\t\t\t1,\r\n\t\t\t10.123,\r\n\t\t\t100,\r\n\t\t\t10000.12,\r\n\t\t\t100000\r\n\t\t],\r\n\t\t \"format\": {\r\n\t\t\t \"decimal_count\": 2,\r\n\t\t\t \"decimal_scale\": 0,\r\n\t\t\t \"decimal_separator\": \".\",\r\n\t\t\t \"field_width\": 8,\r\n\t\t\t \"insert_commas\": false,\r\n\t\t\t \"left_justify\": false,\r\n\t\t\t \"prefix_negative\": \"\",\r\n\t\t\t \"prefix_positive\": \"\",\r\n\t\t\t \"replace_number\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t \"from\": 0,\r\n\t\t\t\t\t \"to\": \"N\/A\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t \"from\": -999,\r\n\t\t\t\t\t \"to\": \"Error\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t \"suffix_negative\": \"\",\r\n\t\t\t \"suffix_positive\": \"\",\r\n\t\t\t \"thousands_separator\": \",\",\r\n\t\t\t \"zero_blank\": false,\r\n\t\t\t \"zero_fill\": false\r\n\t\t}\r\n\t}\r\n}\r\n");
+}
+
+function postDoc_cancel() {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "http://dyalog_root/FormatStringBuilder/", true);
+  xhttp.setRequestHeader('Content-type','application/json');
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+
+  xhttp.send("{\"action_type\": \"CANCEL\"}");
+}
+
+function postDoc_test(){
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "http://dyalog_root/FormatStringBuilder/", true);
+  xhttp.setRequestHeader('Content-type','application/json');
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+
+  xhttp.send("\t{\r\n\t \"action_type\": \"TEST\",\r\n\t \"action_request\": {\r\n\t\t \"data\": [\r\n\t\t\t-0.123,\r\n\t\t\t-1,\r\n\t\t\t-10.123,\r\n\t\t\t-100,\r\n\t\t\t-10000.12,\r\n\t\t\t-100000,\r\n\t\t\t0,\r\n\t\t\t0.123,\r\n\t\t\t1,\r\n\t\t\t10.123,\r\n\t\t\t100,\r\n\t\t\t10000.12,\r\n\t\t\t100000\r\n\t\t],\r\n\t\t \"format\": {\r\n\t\t\t \"decimal_count\": 2,\r\n\t\t\t \"decimal_scale\": 0,\r\n\t\t\t \"decimal_separator\": \".\",\r\n\t\t\t \"field_width\": 8,\r\n\t\t\t \"insert_commas\": false,\r\n\t\t\t \"left_justify\": false,\r\n\t\t\t \"prefix_negative\": \"\",\r\n\t\t\t \"prefix_positive\": \"\",\r\n\t\t\t \"replace_number\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t \"from\": 0,\r\n\t\t\t\t\t \"to\": \"N\/A\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t \"from\": -999,\r\n\t\t\t\t\t \"to\": \"Error\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t \"suffix_negative\": \"\",\r\n\t\t\t \"suffix_positive\": \"\",\r\n\t\t\t \"thousands_separator\": \",\",\r\n\t\t\t \"zero_blank\": false,\r\n\t\t\t \"zero_fill\": false\r\n\t\t}\r\n\t}\r\n}\r\n");
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+	 "form_title": "Format String Builder form title is here.",
+	 "form_description": "Format string builder current state description text goes here...",
+	 "data": [
+		-0.123,
+		-1,
+		-10.123,
+		-100,
+		-10000.12,
+		-100000,
+		0,
+		0.123,
+		1,
+		10.123,
+		100,
+		10000.12,
+		100000
+	],
+	 "format": {
+		 "decimal_count": 2,
+		 "decimal_scale": 0,
+		 "decimal_separator": ".",
+		 "field_width": 8,
+		 "insert_commas": false,
+		 "left_justify": false,
+		 "prefix_negative": "",
+		 "prefix_positive": "",
+		 "replace_number": [
+			{
+				 "from": 0,
+				 "to": "N/A"
+			},
+			{
+				 "from": -999,
+				 "to": "Error"
+			}
+		],
+		 "suffix_negative": "",
+		 "suffix_positive": "",
+		 "thousands_separator": ",",
+		 "zero_blank": false,
+		 "zero_fill": false
+	}
+}
