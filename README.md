@@ -6,9 +6,7 @@ Framework has compolete logging and a built-in log viewer that can be enabled/di
 
 To test
 
-- Load all classes using ]LOAD "{path to projects directory}\H5RFramework\*"
-- Modify #.SampleApp.RunSample 'path' variable with path to the sample html page: 
+- Downlaod the project.
+- Run sample by double-clickign on LoadProject.dyapp file.
 
-   path←'C:\temp\GitHub\H5RFramework\FormatStringBuilder Demo App\apitest.html'
-
-- Run the test function:       s←#.SampleApp.RunSample''  
+- You can restart the sample by running:  s←#.SampleApp.RunSample''  
