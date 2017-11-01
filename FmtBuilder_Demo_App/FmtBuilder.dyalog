@@ -1,6 +1,6 @@
 ﻿:Namespace FmtBuilder
 
-⍝ API Callback for analyzing format string properties.  
+⍝ API Callback for analyzing format string properties.
 ⍝ The properties are submitted through JSON objects via POST
 
       getFmtIntitial←{
@@ -19,42 +19,40 @@
       getPostResponse←{
           r←⎕NEW #.H5Message ⍺
      
-          11::r{
-              ⍺.StatusCode←400
-              ⍺.StatusMessage←⎕DMX.Message
-              ⍺
-          }''
+          11::r sendGenericError''
      
           jsonReq←⎕JSON ⍺.Content
-     
           action←(819⌶)jsonReq.action_type~' '
      
           action≡'test':r testFormatString jsonReq.action_request
      
-          action≡'cancel':resp{
-              ok←#.addLogMsg'Closing HTMLRenderer'
-              obj.Close
-              ⍺.ToHtmlRenderer
+          action≡'cancel':r{
+              ⍺.ObjectRef.Close
           }''
      
-          action≡'ok':resp{
-     
-              ok←#.addLogMsg'Save format and close HTMLRenderer.'
-              obj.Close
+          action≡'ok':r{    
+              ⍝ should probably save state here...
+              ⍺.ObjectRef.Close
           }jsonReq.action_request
      
           resp.HttpStatus←400
           resp.HttpStatusText←'Invalid action.. if gethelp not impelmemented'
           resp.ToHtmlRenderer
      
-      }         
-      
-      testFormatString  ←{      
-              ⍺.Content←⎕JSON procRequest ⍵
-              ⍺.StatusCode←200
-              ⍺.MimeType←'appllication/json'
-              ⍺
-          }
+      }
+
+      sendGenericError←{
+          ⍺.StatusCode←400
+          ⍺.StatusMessage←⎕DMX.Message
+          ⍺
+      }
+
+      testFormatString←{
+          ⍺.Content←⎕JSON procRequest ⍵
+          ⍺.StatusCode←200
+          ⍺.MimeType←'appllication/json'
+          ⍺
+      }
 
       json_formatProperties←{
           j←⎕NS''

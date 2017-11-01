@@ -1,0 +1,7 @@
+﻿Target #
+Load H5APIEndPoint
+Load H5Message
+Load H5Resource
+Load SampleApp
+Load FmtBuilder_Demo_App/FmtBuilder.dyalog
+Run s←#.SampleApp.RunSample''  

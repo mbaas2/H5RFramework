@@ -2,12 +2,16 @@
     ⎕io←0
     ⎕ml←3
 
+
     :field private _html ←''
     :field private _resourceName←''
     :field private _resourceFolder←''
     :field private _debug ←0
     :field private _apiEndPoints ← ⎕null
     :field private _apiEntryPath ← '/'
+    :field private _displayLog ← 0
+    :field private _logWindowRef ← ⎕null
+    :field private _log ← ⍬
 
     ∇ const pagePath
       :Access public
@@ -26,8 +30,18 @@
       _html←GetFileContent pagePath
     ∇
 
+    ∇ CreateLogWindow X
+      _logWindowRef←⎕NEW'HTMLRenderer'( ('Coord' 'Pixel') ('Size'(600 600)))
+    ∇
+
+
+
     ∇ Z←Show;hrObj
       :Access public instance
+     
+      :If DisplayLogWindow
+          CreateLogWindow ''
+      :EndIf
      
       :If (≢_apiEntryPath)<1
           addLogMsg'APIEntryPath is not set.'
@@ -42,11 +56,13 @@
     ∇ Z←processRequest request;url;endpontCallback;resourceType;reqResource;message;response;endpoint
       :Access private instance
      
+      Z←request
       message←⎕NEW #.H5Message request
+      addLogMsg'Request Time: ',⍕⎕TS
       addLogMsg'Request URL: ',message.URL
       addLogMsg'Reqeust Type: ',message.Method
      
-      :If ~message.IsValidDomain      
+      :If ~message.IsValidDomain
           response←⎕NEW #.H5Message message
           response.StatusCode←405
           response.StatusMessage←'Unacceptable request domain: ',message.RequestDomain
@@ -72,6 +88,7 @@
                   response.StatusCode←404
                   response.StatusMessage←'API end-point does not contain callback definition for method: ',message.Method
                   →getout
+     
               :EndTrap
      
               addLogMsg'Request Process Callback: ',endpontCallback
@@ -82,6 +99,7 @@
      
               :Else
      
+                  →(0=⎕NC'message.ObjectRef')/0
                   response←⎕NEW #.H5Message message
                   response.StatusCode←500
                   response.StatusMessage←'Error executing: ',endpontCallback
@@ -155,6 +173,17 @@
           res←↑(1 2∊1 ⎕NINFO ResourceFolder,⍵)/'directory' 'file'
           res
       }
+
+    :property DisplayLogWindow
+    :access public instance
+        ∇ r←get
+          r←_displayLog
+        ∇
+
+        ∇ set arg
+          _displayLog←arg.NewValue
+        ∇
+    :endproperty
 
     :property APIEntryPath
     :access public instance
@@ -253,7 +282,7 @@
      
       fileType←(819⌶)2⊃⎕NPARTS path
       response.MimeType←GetMimeType fileType
-      response.Content←GetFileContent path      
+      response.Content←GetFileContent path
       addLogMsg'Resource Path: ',message.RequestPath
     ∇
 
@@ -262,7 +291,35 @@
     ∇ addLogMsg msg
       :Access public instance
       →(~_debug)/0
-      ⎕←msg
+      _log,←⊂msg      
+      :If 0≠⎕NC'_logWindowRef'
+          :Trap 6   ⍝ is log window closed?  
+              _logWindowRef.HTML←constructLogHTML ⌽_log
+          :EndTrap
+      :Else
+          ⎕←msg
+      :EndIf
     ∇
+
+      constructLogHTML←{
+     
+          h←'<!DOCTYPE html>'
+          h,←'<html>'
+          h,←'<head>'
+          h,←'<Title>HTML Event Log</Title>'
+     
+          ⍝h,←'<script>'
+          ⍝h,←'function scrollToBottom{window.scrollTo(0, document.body.scrollHeight);}'
+          ⍝h,←'</script>'
+     
+          h,←'</head>'
+          h,←'<body>'
+          h,←'<p style="white-space: nowrap">'
+          h,←∊⍵,¨⊂'</br>'
+          h,←'</p>'
+          h,←'</body>'
+          h,←'</html>'
+          h
+      }
 
 :EndClass
